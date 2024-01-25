@@ -42,6 +42,7 @@ def create_transaction_db(card_from, card_to, amount):
     else:
         return "Одна из карт не существует("
 
+
 # Получить все переводы по карте(card_id) история
 def get_card_transaction_db(card_from_id):
     db = next(get_db())
@@ -49,6 +50,31 @@ def get_card_transaction_db(card_from_id):
     card_transaction = db.query(Transfer).filter_by(card_from_id=card_from_id).all()
     return card_transaction
 
-# ДЗ ОТменить перевод подсказка как бы create_transaction_db но немного по другому и там будет
-# статус как False Я спрошу у каждого!
-# def cancel_transfer_db(card_from, card_to, amount, transfer_id)
+
+# Отмена транзакции
+def cancel_transfer_db(card_from, card_to, amount, transfer_id):
+    db = next(get_db())
+
+    # Проверка на наличие обеих карт в БД
+    check_card_from = validate_card(card_from, db)
+    check_card_to = validate_card(card_to, db)
+
+    # Если обе карты существуют в бд, проверяем transfer_id
+    if check_card_from and check_card_to:
+        # Проверяем, существует ли указанный перевод
+        transaction_to_cancel = db.query(Transfer).filter_by(trasfer_id=transfer_id).first()
+        if transaction_to_cancel:
+            # Отмена перевода возвращаем средства к отправителю и убираем их у получателя
+            check_card_from.balance += amount
+            check_card_to.balance -= amount
+            # transaction_to_cancel.status = False
+
+            # Удаляем перевод из БД
+            db.delete(transaction_to_cancel)
+            db.commit()
+
+            return 'Перевод успешно отменен'
+        else:
+            return 'Указанный перевод не существует'
+    else:
+        return 'Одна из карт не существует('

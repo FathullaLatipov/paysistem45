@@ -37,7 +37,7 @@ class Transfer(Base):
     card_to_id = Column(Integer, ForeignKey('cards.card_id'))
     amount = Column(Float)
 
-    status = Column(Boolean, defaul=True)
+    status = Column(Boolean, default=True)
 
     transaction_date = Column(DateTime)
 

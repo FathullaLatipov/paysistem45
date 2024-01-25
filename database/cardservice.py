@@ -23,6 +23,15 @@ def get_exact_user_card_db(user_id):
 
     return exact_user_card
 
+# Вывести определенную карту определенного пользователя
+def get_exact_user_cards_db(user_id, card_id):
+    db = next(get_db())
+
+    exact = db.query(UserCard).filter_by(user_id=user_id, card_id=card_id).first()
+
+    return exact
+
+
 # Проверка карты на наличия в БД
 def check_card_db(card_number):
     db = next(get_db)
