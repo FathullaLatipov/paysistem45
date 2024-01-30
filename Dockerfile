@@ -1,7 +1,7 @@
 # Какой язык программирования
 FROM python:latest
 # Копируем всеъ файлов
-COPY ./project
+COPY . /project
 # Назначить основную нашу папку для Docker
 WORKDIR /project
 

@@ -27,3 +27,4 @@ app.include_router(currency_router)
 # Мы первый html с помощью FastAPI 100/100
 # Мы сделаем курс валют из NBU 50/50
 # Запускаем наш Docker 100/100
+# Запускаем наш контейнер с помощью docker run -d CONTAINER NAME
